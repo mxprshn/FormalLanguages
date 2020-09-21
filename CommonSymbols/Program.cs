@@ -41,11 +41,22 @@ namespace CommonSymbols
                 secondTextSymbols.Add(symbol);
             }
 
-            firstTextSymbols.IntersectWith(secondTextSymbols);
+            var intersection = new HashSet<char>(firstTextSymbols);
+            intersection.IntersectWith(secondTextSymbols);
 
-            Console.WriteLine("Общие символы в текстах:");
+            var difference = new HashSet<char>(firstTextSymbols);
+            difference.ExceptWith(intersection);
 
-            foreach (var symbol in firstTextSymbols)
+            Console.WriteLine("\nОбщие символы в текстах:");
+
+            foreach (var symbol in intersection)
+            {
+                Console.WriteLine($"{symbol}");
+            }
+
+            Console.WriteLine("\nСимволы, встречающиеся только в первом тексте:");
+
+            foreach (var symbol in difference)
             {
                 Console.WriteLine($"{symbol}");
             }
