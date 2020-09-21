@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "TokenCoding": {
+      "commandName": "Project",
+      "commandLineArgs": "expression.txt"
+    }
+  }
+}
