@@ -14,7 +14,7 @@ namespace CommonSymbols
             var firstText = "";
             var secondText = "";
 
-            if (args.Length == 2 && !File.Exists(args[0]) && !File.Exists(args[1]))
+            if (args.Length == 2 && File.Exists(args[0]) && File.Exists(args[1]))
             {
                 firstText = File.ReadAllText(args[0]);
                 secondText = File.ReadAllText(args[1]);
