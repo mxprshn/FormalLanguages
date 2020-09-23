@@ -8,10 +8,10 @@ namespace TokenCoding
     /// </summary>
     public static class Coder
     {
-        private const int EofgramCode = 1000;
-        private const int FirstNonTerminalCode = 11;
-        private const int FirstTerminalCode = 51;
-        private const int FirstSemanticsCode = 101;
+        public const int EofgramCode = 1000;
+        public const int FirstNonTerminalCode = 11;
+        public const int FirstTerminalCode = 51;
+        public const int FirstSemanticsCode = 101;
 
         private static Dictionary<char, int> symbols = new Dictionary<char, int>
         {
@@ -69,6 +69,8 @@ namespace TokenCoding
 
         private static EncodingResult Encode(EncodingInput input)
         {
+            var hasEofgram = false;
+
             // Хранит результирующую строку
             var resultBuilder = new StringBuilder("");
 
@@ -194,6 +196,7 @@ namespace TokenCoding
                             if (token == "E" && source.Substring(i - 1, 7) == "Eofgram")
                             {
                                 resultBuilder.Append(EofgramCode);
+                                hasEofgram = true;
                                 i = source.Length;
                                 break;
                             }
@@ -272,6 +275,11 @@ namespace TokenCoding
                             break;
                         }
                 }
+            }
+
+            if (!hasEofgram)
+            {
+                throw new CoderException("Отсутствует Eofgram");
             }
 
             return new EncodingResult

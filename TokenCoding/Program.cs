@@ -18,31 +18,46 @@ namespace TokenCoding
 
             var source = File.ReadAllText(args[0]);
 
-            var result = Coder.Encode(source);
-
-            Console.WriteLine("Терминалы:");
-
-            foreach (var terminal in result.Terminals)
+            try
             {
-                Console.WriteLine($"{terminal.Key, 20} | {terminal.Value, -4}");
+                var result = Coder.Encode(source);
+
+                if (result.NonTerminals.Count > 40) throw new CoderException("Превышено допустимое число нетерминалов");
+                if (result.Terminals.Count > 50) throw new CoderException("Превышено допустимое число терминалов");
+                if (result.Semantics.Count > 50) throw new CoderException("Превышено допустимое число семантик");
+
+                Console.WriteLine("Терминалы:");
+
+                foreach (var terminal in result.Terminals)
+                {
+                    Console.WriteLine($"{terminal.Key,20} | {terminal.Value,-4}");
+                }
+
+                Console.WriteLine("\nНетерминалы:");
+
+                foreach (var nonTerminal in result.NonTerminals)
+                {
+                    Console.WriteLine($"{nonTerminal.Key,20} | {nonTerminal.Value,-4}");
+                }
+
+                Console.WriteLine("\nСемантики:");
+
+                foreach (var semantics in result.Semantics)
+                {
+                    Console.WriteLine($"{semantics.Key,20} | {semantics.Value,-4}");
+                }
+
+                Console.WriteLine($"\nИсходный текст:\n{source}");
+                Console.WriteLine($"\nРезультат:\n{result.Encoded}");
             }
-
-            Console.WriteLine("\nНетерминалы:");
-
-            foreach (var nonTerminal in result.NonTerminals)
+            catch (UnexpectedCharacterException e)
             {
-                Console.WriteLine($"{nonTerminal.Key, 20} | {nonTerminal.Value, -4}");
+                Console.WriteLine(e.Message);
             }
-
-            Console.WriteLine("\nСемантики:");
-
-            foreach (var semantics in result.Semantics)
+            catch (CoderException e)
             {
-                Console.WriteLine($"{semantics.Key, 20} | {semantics.Value, -4}");
+                Console.WriteLine(e.Message);
             }
-
-            Console.WriteLine($"\nИсходный текст:\n{source}");
-            Console.WriteLine($"\nРезультат:\n{result.Encoded}");
         }
     }
 }
