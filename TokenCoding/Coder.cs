@@ -46,6 +46,29 @@ namespace TokenCoding
 
         public static EncodingResult Encode(string source)
         {
+            var firstInput = new EncodingInput
+            {
+                Source = source,
+                Terminals = new Dictionary<string, int>(),
+                NonTerminals = new Dictionary<string, int>(),
+                Semantics = new Dictionary<string, int>()
+            };
+
+            var firstResult = Encode(firstInput);
+
+            var secondInput = new EncodingInput
+            {
+                Source = source,
+                Terminals = new Dictionary<string, int>(),
+                NonTerminals = firstResult.NonTerminals,
+                Semantics = new Dictionary<string, int>()
+            };
+
+            return Encode(secondInput);
+        }
+
+        private static EncodingResult Encode(EncodingInput input)
+        {
             // Хранит результирующую строку
             var resultBuilder = new StringBuilder("");
 
@@ -56,9 +79,10 @@ namespace TokenCoding
             var newTerminalCode = FirstTerminalCode;
             var newSemanticsCode = FirstSemanticsCode;
 
-            var nonTerminals = new Dictionary<string, int>();
-            var terminals = new Dictionary<string, int>();
-            var semantics = new Dictionary<string, int>();
+            var nonTerminals = input.NonTerminals;
+            var terminals = input.Terminals;
+            var semantics = input.Semantics;
+            var source = input.Source;
 
             var currentState = State.Neutral;
 
@@ -199,6 +223,13 @@ namespace TokenCoding
                                         ++newNonTerminalCode;
                                     }
 
+                                    resultBuilder.Append(nonTerminals[token] + currentChar.ToString());
+                                    currentTokenBuilder.Clear();
+                                    break;
+                                }
+
+                                if (nonTerminals.ContainsKey(token))
+                                {
                                     resultBuilder.Append(nonTerminals[token] + currentChar.ToString());
                                     currentTokenBuilder.Clear();
                                     break;
