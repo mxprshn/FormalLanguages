@@ -94,15 +94,23 @@ namespace TokenCoding
                 {
                     case State.Neutral:
                         {
-                            // Если просматриваемый символ является пробелом, он не добавляется к строке результата
+                            // Если просматриваемый символ является пробелом, он добавляется к строке результата
                             if (char.IsWhiteSpace(currentChar))
                             {
+                                resultBuilder.Append(currentChar);
                                 break;
                             }
 
+                            // Если просматриваемый символ не пробел, и последний символ, добавленный в результат, тоже не пробел,
+                            // к результату добавляется дополнительный пробел
                             if (symbols.ContainsKey(currentChar))
                             {
-                                resultBuilder.Append(" " + symbols[currentChar]);
+                                if (!char.IsWhiteSpace(resultBuilder.ToString()[resultBuilder.Length - 1]))
+                                {
+                                    resultBuilder.Append(' ');
+                                }
+
+                                resultBuilder.Append(symbols[currentChar]);
                                 break;
                             }
 
@@ -148,7 +156,7 @@ namespace TokenCoding
                                     ++newTerminalCode;
                                 }
 
-                                resultBuilder.Append(" " + terminals[token]);
+                                resultBuilder.Append(terminals[token]);
                                 currentTokenBuilder.Clear();
                                 break;
                             }
@@ -177,7 +185,7 @@ namespace TokenCoding
                                     ++newNonTerminalCode;
                                 }
 
-                                resultBuilder.Append(" " + nonTerminals[token]);
+                                resultBuilder.Append(nonTerminals[token] + currentChar.ToString());
                                 currentTokenBuilder.Clear();
                                 break;
                             }
@@ -185,7 +193,7 @@ namespace TokenCoding
                             // Рассматривается Eofgram
                             if (token == "E" && source.Substring(i - 1, 7) == "Eofgram")
                             {
-                                resultBuilder.Append(" " + EofgramCode);
+                                resultBuilder.Append(EofgramCode);
                                 i = source.Length;
                                 break;
                             }
@@ -215,14 +223,14 @@ namespace TokenCoding
                                         ++newNonTerminalCode;
                                     }
 
-                                    resultBuilder.Append(" " + nonTerminals[token]);
+                                    resultBuilder.Append(nonTerminals[token] + currentChar.ToString());
                                     currentTokenBuilder.Clear();
                                     break;
                                 }
 
                                 if (nonTerminals.ContainsKey(token))
                                 {
-                                    resultBuilder.Append(" " + nonTerminals[token]);
+                                    resultBuilder.Append(nonTerminals[token] + currentChar.ToString());
                                     currentTokenBuilder.Clear();
                                     break;
                                 }
@@ -234,7 +242,7 @@ namespace TokenCoding
                                     ++newTerminalCode;
                                 }
 
-                                resultBuilder.Append(" " + terminals[token]);
+                                resultBuilder.Append(terminals[token] + currentChar.ToString());
                                 currentTokenBuilder.Clear();
                                 break;
                             }
@@ -255,7 +263,7 @@ namespace TokenCoding
                                     ++newSemanticsCode;
                                 }
 
-                                resultBuilder.Append(" " + semantics[token]);
+                                resultBuilder.Append(semantics[token] + currentChar.ToString());
                                 currentTokenBuilder.Clear();
                                 break;
                             }
@@ -268,7 +276,7 @@ namespace TokenCoding
 
             return new EncodingResult
             {
-                Encoded = resultBuilder.ToString().Trim(),
+                Encoded = resultBuilder.ToString(),
                 Terminals = terminals,
                 NonTerminals = nonTerminals,
                 Semantics = semantics

@@ -10,18 +10,13 @@ namespace TokenCoding
             Console.OutputEncoding = System.Text.Encoding.Unicode;
             Console.InputEncoding = System.Text.Encoding.Unicode;
 
-            var source = "";
-
             if (args.Length != 1 || !File.Exists(args[0]))
             {
-                Console.Write("Введите кодируемую строку: ");
-                source = Console.ReadLine();
+                Console.WriteLine("Путь к файлу не указан или файл не найден.");
                 return;
             }
-            else
-            {
-                source = File.ReadAllText(args[0]);
-            }
+
+            var source = File.ReadAllText(args[0]);
 
             var result = Coder.Encode(source);
 
