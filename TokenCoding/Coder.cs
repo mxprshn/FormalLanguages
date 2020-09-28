@@ -107,7 +107,7 @@ namespace TokenCoding
                             // к результату добавляется дополнительный пробел
                             if (symbols.ContainsKey(currentChar))
                             {
-                                if (!char.IsWhiteSpace(resultBuilder.ToString()[resultBuilder.Length - 1]))
+                                if (resultBuilder.Length != 0 && !char.IsWhiteSpace(resultBuilder.ToString()[resultBuilder.Length - 1]))
                                 {
                                     resultBuilder.Append(' ');
                                 }
