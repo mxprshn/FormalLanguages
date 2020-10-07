@@ -95,7 +95,7 @@ namespace AutomatonBuilder
         {
             var table = new string[symbols.Length + 1, states.Length + 1];
 
-            table[0, 0] = "символ\\состояния";
+            table[0, 0] = "символ\\состояние";
 
             for (var i = 0; i < symbols.Length; ++i)
             {
