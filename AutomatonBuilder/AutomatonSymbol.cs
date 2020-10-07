@@ -4,11 +4,11 @@ using System.Text;
 
 namespace AutomatonBuilder
 {
-    public abstract class GrammarSymbol
+    public class AutomatonSymbol
     {
         public string Literal { get; private set; }
 
-        public GrammarSymbol(string literal)
+        public AutomatonSymbol(string literal)
         {
             Literal = literal;
         }
@@ -20,7 +20,7 @@ namespace AutomatonBuilder
 
         public override bool Equals(object obj)
         {
-            return ((GrammarSymbol)obj).Literal == Literal;
+            return ((AutomatonSymbol)obj).Literal == Literal;
         }
 
         public override string ToString()

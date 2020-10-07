@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "AutomatonBuilder": {
+      "commandName": "Project",
+      "commandLineArgs": "grammar.txt"
+    }
+  }
+}
