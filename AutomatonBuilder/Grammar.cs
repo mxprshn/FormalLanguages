@@ -60,7 +60,7 @@ namespace AutomatonBuilder
                 automaton.AddSymbol(new AutomatonSymbol(terminal.Literal));
             }
 
-            var finalState = new State("A");
+            var finalState = new State("A-FINAL");
             automaton.AddState(finalState);
 
             foreach (var nonterminal in nonterminals)

@@ -9,9 +9,49 @@ namespace AutomatonBuilder
     {
         static void Main(string[] args)
         {
+            Console.OutputEncoding = System.Text.Encoding.Unicode;
+
             if (args.Length != 1) throw new ArgumentException();
 
-            var grammar = GrammarParser.FromFile(args[0]);
+            Grammar grammar = null;
+
+            try
+            {
+                grammar = GrammarParser.FromFile(args[0]);
+            }
+            catch (ParserException e)
+            {
+                Console.WriteLine($"ОШИБКА: некорректная грамматика -- {e.Message}");
+                return;
+            }
+            catch (FileNotFoundException e)
+            {
+                Console.WriteLine("ОШИБКА: файл не найден");
+                return;
+            }
+
+            Console.WriteLine("Грамматика, полученая из файла:\n");
+
+            Console.Write("Нетерминалы: ");
+
+            foreach (var nonterminal in grammar.Nonterminals)
+            {
+                Console.Write($" {nonterminal}");
+            }
+
+            Console.WriteLine("\n");
+
+            Console.Write("Терминалы: ");
+
+            foreach (var terminal in grammar.Terminals)
+            {
+                Console.Write($" {terminal}");
+            }
+
+            Console.WriteLine("\n");
+
+            Console.WriteLine("Правила:\n");
+
             foreach (var nonterminal in grammar.Nonterminals)
             {
                 foreach (var rule in nonterminal.TerminalProductions)
@@ -21,7 +61,7 @@ namespace AutomatonBuilder
 
                 foreach (var rule in nonterminal.NonterminalProductions)
                 {
-                    Console.WriteLine($"{nonterminal} -> {rule.t.Literal}{rule.N.Literal}");
+                    Console.WriteLine($"{nonterminal} -> {rule.t.Literal} {rule.N.Literal}");
                 }
             }
 
@@ -29,6 +69,18 @@ namespace AutomatonBuilder
 
             var symbols = automaton.Symbols.ToArray();
             var states = automaton.States.ToArray();
+
+            Console.WriteLine("\nКонечный автомат, полученный по грамматике:\n");
+
+            Console.Write("Состояния: ");
+
+            foreach (var state in automaton.States)
+            {
+                Console.Write($" {state}");
+            }
+
+            Console.WriteLine("\n");
+            Console.WriteLine("Таблица переходов:\n");
 
             for (var i = 0; i < states.Length; ++i)
             {
@@ -41,10 +93,9 @@ namespace AutomatonBuilder
 
         private static void PrintTable(AutomatonSymbol[] symbols, State[] states)
         {
-            var divider = new string('-', 40);
             var table = new string[symbols.Length + 1, states.Length + 1];
 
-            table[0, 0] = "символ\\состояние";
+            table[0, 0] = "символ\\состояния";
 
             for (var i = 0; i < symbols.Length; ++i)
             {
@@ -69,23 +120,39 @@ namespace AutomatonBuilder
                 }
             }
 
+            var maxLength = table.Cast<string>().Max(s => s.Length);
+
             for (var i = 0; i <= symbols.Length; ++i)
             {
-                for (var j = 0; j <= states.Length; ++j)
+                if (i == 0 || i == 1)
                 {
-                    Console.Write($"{table[i, j],40} |");
+                    for (var j = 0; j <= states.Length; ++j)
+                    {
+                        var length = j == 0 ? 17 : maxLength;
+                        var divider = new string('-', length);
+                        Console.Write($"{divider}-+");
+                    }
+
+                    Console.WriteLine();
                 }
 
-                Console.WriteLine();
-
-                if (i != 0 && i != symbols.Length) continue;
                 for (var j = 0; j <= states.Length; ++j)
                 {
-                    Console.Write($"{divider}-+");
+                    var length = j == 0 ? 17 : maxLength;
+                    Console.Write($"{{0,{length}}} |", table[i, j]);
                 }
 
-                Console.WriteLine();
+                Console.WriteLine();                
             }
+
+            for (var j = 0; j <= states.Length; ++j)
+            {
+                var length = j == 0 ? 17 : maxLength;
+                var divider = new string('-', length);
+                Console.Write($"{divider}-+");
+            }
+
+            Console.WriteLine();
         }
     }
 }
