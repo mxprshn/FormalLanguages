@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30204.135
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinimalAutomaton", "MinimalAutomaton.csproj", "{C37480EA-CE7D-4273-A9AA-ADDB29425120}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormalLangLib", "..\FormalLangLib\FormalLangLib.csproj", "{C3B5796F-33F6-44BD-8DFA-46C02E9B2EF1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C37480EA-CE7D-4273-A9AA-ADDB29425120}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C37480EA-CE7D-4273-A9AA-ADDB29425120}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C37480EA-CE7D-4273-A9AA-ADDB29425120}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C37480EA-CE7D-4273-A9AA-ADDB29425120}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3B5796F-33F6-44BD-8DFA-46C02E9B2EF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3B5796F-33F6-44BD-8DFA-46C02E9B2EF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3B5796F-33F6-44BD-8DFA-46C02E9B2EF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3B5796F-33F6-44BD-8DFA-46C02E9B2EF1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {02B9B528-EC09-460B-90BA-95045DAD8255}
+	EndGlobalSection
+EndGlobal
