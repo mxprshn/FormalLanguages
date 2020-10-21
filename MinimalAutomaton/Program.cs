@@ -7,6 +7,8 @@ namespace MinimalAutomaton
     {
         static void Main(string[] args)
         {
+            Console.OutputEncoding = System.Text.Encoding.Unicode;
+
             var automaton = new DFA();
 
             var q0 = automaton.AddState("q0", true);
